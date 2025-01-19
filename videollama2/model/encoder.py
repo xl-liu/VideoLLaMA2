@@ -21,7 +21,7 @@ class CLIPVisionTower(nn.Module):
         self.image_processor = CLIPImageProcessor.from_pretrained(self.vision_tower_name)
 
         config = CLIPVisionConfig.from_pretrained(self.vision_tower_name)
-        config._attn_implementation = "flash_attention_2"
+        config._attn_implementation = "sdpa"
 
         if not load_pretrained:
             self.vision_tower = CLIPVisionModel(config=config)
@@ -93,7 +93,7 @@ class SiglipVisionTower(nn.Module):
         self.image_processor = SiglipImageProcessor.from_pretrained(self.vision_tower_name)
 
         config = SiglipVisionConfig.from_pretrained(self.vision_tower_name)
-        config._attn_implementation = 'flash_attention_2'
+        config._attn_implementation = 'sdpa'
 
         if not load_pretrained:
             self.vision_tower = SiglipVisionModel(config=config)

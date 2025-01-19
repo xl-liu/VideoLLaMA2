@@ -1,3 +1,8 @@
+slight modifications to run on macos
+
+- install ffpmeg 4 using homebrew <br>
+- build <a href="https://github.com/dmlc/decord">decord</a> from source
+
 <p align="center">
     <img src="https://github.com/DAMO-NLP-SG/VideoLLaMA2/blob/e7bc34e0e9a96d77947a75b54399d9f96ccf209d/assets/logo.png" width="150" style="margin-bottom: 0.2;"/>
 <p>

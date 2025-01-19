@@ -29,7 +29,7 @@ def model_init(model_path=None, **kwargs):
     return model, processor, tokenizer
 
 
-def mm_infer(image_or_video, instruct, model, tokenizer, modal='video', **kwargs):
+def mm_infer(image_or_video, instruct, model, tokenizer, modal='video', device='cuda', **kwargs):
     """inference api of VideoLLaMA2 for video understanding.
 
     Args:
@@ -83,10 +83,12 @@ def mm_infer(image_or_video, instruct, model, tokenizer, modal='video', **kwargs
     message = system_message + message
     prompt = tokenizer.apply_chat_template(message, tokenize=False, add_generation_prompt=True)
 
-    input_ids = tokenizer_multimodal_token(prompt, tokenizer, modal_token, return_tensors='pt').unsqueeze(0).long().cuda()
-    attention_masks = input_ids.ne(tokenizer.pad_token_id).long().cuda()
+    input_ids = tokenizer_multimodal_token(prompt, tokenizer, modal_token, return_tensors='pt').unsqueeze(0).long()
+    attention_masks = input_ids.ne(tokenizer.pad_token_id).long()
 
-    # 3. generate response according to visual signals and prompts. 
+    if device == 'cuda':
+        input_ids = input_ids.cuda()
+        attention_masks = attention_masks.cuda()    # 3. generate response according to visual signals and prompts. 
     keywords = [tokenizer.eos_token]
     stopping_criteria = KeywordsStoppingCriteria(keywords, tokenizer, input_ids)
 
