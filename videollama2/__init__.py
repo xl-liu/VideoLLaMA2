@@ -57,7 +57,9 @@ def mm_infer(image_or_video, instruct, model, tokenizer, modal='video', device='
     if modal == 'text':
         tensor = None
     else:
-        tensor = image_or_video.half().cuda()
+        tensor = image_or_video
+        if device == 'cuda':
+            tensor = tensor.half().cuda()
         tensor = [(tensor, modal)]
 
     # 2. text preprocess (tag process & generate prompt).
